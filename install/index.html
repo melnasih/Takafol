@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Installation Wizard</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/jquery-ui.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <h1 class="install-title ">System installation wizard</h1>
+    <div class="container" id="wrap">
+        <div class="install-button-wrap">
+            <div class="install-form">
+                <form method="post" onsubmit="InstallDataBaseTables(this);">
+                    <div class="form-group" style="text-align:center;" dir="rtl">
+                        <input type="submit" value="Install Tables" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="../js/jquery-latest.min.js"></script>
+        <script>
+            function InstallDataBaseTables(e) {
+              event.preventDefault();
+              let hostname = location.hostname;
+              let url = `http://${hostname}:3000/api/db_operations/InstallTables/`;
+              let myreq = $.post(url, {InstallDataBaseTables : 1});
+              myreq.done((data) => {
+                 alert(data);
+              });
+            }
+        </script>
+</body>
+</html>

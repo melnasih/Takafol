@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Operations Page</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container" id="wrap">
+        <h1 class="db_operations_title">Perform Table Operation</h1><br />
+        <form class="form-horizontal" method="post" onsubmit="run_db_operation(this)">
+            <div class="form-group">
+                <label>Enter SQL Expression</label><br />
+                <textarea name="sql" class="form-control sql_input"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Access Key</label><br />
+                <input type="text" name="access_key" class="form-control access_key" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success" type="submit">Run</button>
+            </div>
+        </form>
+        <br />
+        <div class="examples">
+            <pre>
+Mysql Examples
+    // add fields 
+    $sql_add = "ALTER TABLE birthdays ADD street CHAR(30) AFTER birthday, ADD phone CHAR(20) AFTER zipcode";
+
+    //edit field
+    $sql_edit = "ALTER TABLE birthdays CHANGE birthday birthday VARCHAR(15)";
+
+    //delete field
+    $sql_remove = "ALTER TABLE birthdays DROP lastname";
+
+    //drop table 
+    $sql_drop = "DROP TABLE table_name";
+
+    //create table 
+    $sql_create = "CREATE TABLE admin_users (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        username LONGTEXT,
+        password LONGTEXT,
+        reg_date TIMESTAMP
+        )";
+            </pre>
+            <hr />
+        <pre>
+            Sqlite Examples 
+            
+            //drop table sqlite
+            $drop = "drop table print_queue";
+
+            //alter table  add field
+            $sql_a = "ALTER TABLE merge_table ADD COLUMN running_now";
+
+            //create Table 
+            $ready_folders = "CREATE TABLE ready_folders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,     
+                folder_name LONGTEXT,
+                notes LONGTEXT,
+                my_ae LONGTEXT,
+                running_conversion LONGTEXT,
+                reg_date TIMESTAMP DATETIME DEFAULT CURRENT_TIMESTAMP
+                )";
+
+           //change filed
+           $sql_edit = "ALTER TABLE print_queue CHANGE phone_number print_status LONGTEXT";
+
+           // drop field
+           ALTER TABLE print_queue DROP COLUMN phone_number;
+            ALTER TABLE print_queue DROP phone_number;
+            
+        </pre>
+        </div>
+        <script src="../js/jquery-latest.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script>
+            function run_db_operation(e) {
+                event.preventDefault();
+                let hostname = location.hostname;
+                let url = `http://${hostname}:3000/api/db_operations/EditDatabase`;
+                let sql = $('.sql_input').val();
+                let access_key = $('.access_key').val();
+                let mydata = $.post(url, {
+                    run_db_operation: sql,
+                    access_key: access_key
+                });
+                mydata.done((data) => {
+                    alert(data);
+                });
+
+            }
+        </script>
+
+        <style>
+            .db_operations_title {
+                font: bold 18px arial;
+                text-decoration: underline;
+            }
+
+            /*# sourceMappingURL=style.css.map */
+        </style>
+    </div>
+
+</body>
+
+</html>
